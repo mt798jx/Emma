@@ -12,7 +12,7 @@ function MessageList({ messages }) {
                         <li
                             key={index}
                             style={{
-                                backgroundColor: '#ffcccb',
+                                backgroundColor: msg.user === 'Emma' ? '#ffcccb' : '#cce5ff',
                                 margin: '10px auto',
                                 padding: '10px',
                                 borderRadius: '5px',
@@ -20,7 +20,7 @@ function MessageList({ messages }) {
                                 textAlign: 'left',
                             }}
                         >
-                            {msg}
+                            <b>{msg.user}:</b> {msg.text}
                         </li>
                     ))}
                 </ul>
