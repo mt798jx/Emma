@@ -54,7 +54,6 @@ function LoginPage({ onLogin }) {
                 position: 'relative',
             }}
         >
-            <h1 style={{ color: '#ffffff', marginBottom: '20px', fontSize: '32px' }}>Prihlásenie</h1>
             <div
                 style={{
                     display: 'flex',
