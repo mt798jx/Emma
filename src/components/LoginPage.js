@@ -21,10 +21,19 @@ function LoginPage({ onLogin }) {
         }
     };
 
-    const selectedColor = selectedUser ? users[selectedUser].color : '#121212'; // Farba podľa používateľa
+    const handleOutsideClick = (e) => {
+        if (!e.target.closest('.login-box') && !e.target.closest('.user-avatar')) {
+            setSelectedUser(null);
+            setPassword('');
+            setError('');
+        }
+    };
+
+    const selectedColor = selectedUser ? users[selectedUser].color : '#121212';
 
     return (
         <div
+            onClick={handleOutsideClick}
             style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -36,6 +45,7 @@ function LoginPage({ onLogin }) {
                 color: '#ffffff',
                 padding: '20px',
                 transition: 'background-color 0.5s ease',
+                position: 'relative',
             }}
         >
             <h1 style={{ color: '#ffffff', marginBottom: '20px', fontSize: '32px' }}>Prihlásenie</h1>
@@ -51,6 +61,7 @@ function LoginPage({ onLogin }) {
                 {Object.keys(users).map((userKey) => (
                     <div
                         key={userKey}
+                        className="user-avatar"
                         onClick={() => setSelectedUser(userKey)}
                         style={{
                             textAlign: 'center',
@@ -110,6 +121,7 @@ function LoginPage({ onLogin }) {
             </div>
             {selectedUser && (
                 <div
+                    className="login-box"
                     style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -121,6 +133,7 @@ function LoginPage({ onLogin }) {
                         backgroundColor: '#1f1f1f',
                         borderRadius: '10px',
                         boxShadow: `0px 10px 20px ${selectedColor}`,
+                        zIndex: 1,
                     }}
                 >
                     <p style={{ marginBottom: '10px', fontSize: '16px', color: '#bbbbbb' }}>
