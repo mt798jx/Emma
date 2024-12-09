@@ -8,9 +8,9 @@ function LoginPage({ onLogin }) {
     const [error, setError] = useState('');
 
     const users = {
-        emma: { name: 'Emma', image: emmaImage, password: 'emma' },
-        miro: { name: 'Miro', image: miroImage, password: 'miro' },
-        admin: { name: 'Admin', password: 'admin' },
+        emma: { name: 'Emma', image: emmaImage, password: 'emma', color: '#d6336c' }, // Ružová
+        miro: { name: 'Miro', image: miroImage, password: 'miro', color: '#007bff' }, // Modrá
+        admin: { name: 'Admin', password: 'admin', color: '#333' }, // Šedá
     };
 
     const handleLogin = () => {
@@ -21,6 +21,8 @@ function LoginPage({ onLogin }) {
         }
     };
 
+    const selectedColor = selectedUser ? users[selectedUser].color : '#121212'; // Farba podľa používateľa
+
     return (
         <div
             style={{
@@ -29,15 +31,19 @@ function LoginPage({ onLogin }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '100vh',
-                backgroundColor: '#f9f7f6',
+                backgroundColor: selectedColor,
                 fontFamily: 'Arial, sans-serif',
+                color: '#ffffff',
+                padding: '20px',
+                transition: 'background-color 0.5s ease',
             }}
         >
-            <h1 style={{ color: '#333', marginBottom: '20px' }}>Prihlásenie</h1>
+            <h1 style={{ color: '#ffffff', marginBottom: '20px', fontSize: '32px' }}>Prihlásenie</h1>
             <div
                 style={{
                     display: 'flex',
                     justifyContent: 'center',
+                    flexWrap: 'wrap',
                     gap: '40px',
                     marginBottom: '30px',
                 }}
@@ -49,8 +55,23 @@ function LoginPage({ onLogin }) {
                         style={{
                             textAlign: 'center',
                             cursor: 'pointer',
-                            transition: 'transform 0.2s',
+                            transition: 'transform 0.3s, box-shadow 0.3s',
                             transform: selectedUser === userKey ? 'scale(1.1)' : 'scale(1)',
+                            boxShadow:
+                                selectedUser === userKey
+                                    ? `0px 10px 20px ${users[userKey].color}`
+                                    : '0px 5px 15px rgba(0, 0, 0, 0.5)',
+                            borderRadius: '50%',
+                        }}
+                        onMouseOver={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.1)';
+                            e.currentTarget.style.boxShadow = `0px 10px 20px ${users[userKey].color}`;
+                        }}
+                        onMouseOut={(e) => {
+                            if (selectedUser !== userKey) {
+                                e.currentTarget.style.transform = 'scale(1)';
+                                e.currentTarget.style.boxShadow = '0px 5px 15px rgba(0, 0, 0, 0.5)';
+                            }
                         }}
                     >
                         {userKey === 'admin' ? (
@@ -59,15 +80,13 @@ function LoginPage({ onLogin }) {
                                     width: '150px',
                                     height: '150px',
                                     borderRadius: '50%',
-                                    backgroundColor: '#555',
+                                    backgroundColor: '#333',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    color: 'white',
+                                    color: '#ffffff',
                                     fontSize: '24px',
                                     fontWeight: 'bold',
-                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-                                    border: selectedUser === 'admin' ? '4px solid #d6336c' : '4px solid transparent',
                                 }}
                             >
                                 Admin
@@ -80,13 +99,12 @@ function LoginPage({ onLogin }) {
                                     width: '150px',
                                     height: '150px',
                                     borderRadius: '50%',
-                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
                                     objectFit: 'cover',
-                                    border: selectedUser === userKey ? '4px solid #d6336c' : '4px solid transparent',
+                                    border: selectedUser === userKey ? `3px solid ${users[userKey].color}` : '3px solid transparent',
                                 }}
                             />
                         )}
-                        <p style={{ marginTop: '10px', fontSize: '18px', color: '#555' }}>{users[userKey].name}</p>
+                        <p style={{ marginTop: '10px', fontSize: '18px', color: '#ffffff' }}>{users[userKey].name}</p>
                     </div>
                 ))}
             </div>
@@ -96,17 +114,17 @@ function LoginPage({ onLogin }) {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        gap: '10px',
+                        gap: '15px',
                         width: '100%',
                         maxWidth: '400px',
                         padding: '20px',
-                        backgroundColor: 'white',
+                        backgroundColor: '#1f1f1f',
                         borderRadius: '10px',
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: `0px 10px 20px ${selectedColor}`,
                     }}
                 >
-                    <p style={{ marginBottom: '10px', color: '#555' }}>
-                        Zadajte heslo pre <strong>{users[selectedUser].name}</strong>:
+                    <p style={{ marginBottom: '10px', fontSize: '16px', color: '#bbbbbb' }}>
+                        Zadajte heslo pre <strong style={{ color: '#ffffff' }}>{users[selectedUser].name}</strong>:
                     </p>
                     <input
                         type="password"
@@ -115,24 +133,36 @@ function LoginPage({ onLogin }) {
                         placeholder="Zadajte heslo"
                         style={{
                             width: '100%',
-                            padding: '10px',
+                            padding: '12px',
                             borderRadius: '5px',
-                            border: '1px solid #ccc',
+                            border: 'none',
                             fontSize: '16px',
-                            boxShadow: 'inset 0px 2px 4px rgba(0, 0, 0, 0.1)',
+                            backgroundColor: '#333',
+                            color: '#ffffff',
+                            boxShadow: 'inset 0px 2px 4px rgba(0, 0, 0, 0.5)',
                         }}
                     />
                     <button
                         onClick={handleLogin}
                         style={{
-                            padding: '10px 20px',
-                            backgroundColor: '#d6336c',
+                            padding: '12px 20px',
+                            backgroundColor: selectedColor,
                             color: 'white',
                             border: 'none',
                             borderRadius: '5px',
                             cursor: 'pointer',
-                            marginTop: '10px',
-                            transition: 'background-color 0.2s',
+                            fontSize: '16px',
+                            transition: 'background-color 0.3s, transform 0.3s',
+                        }}
+                        onMouseOver={(e) => {
+                            e.target.style.backgroundColor = '#ffffff';
+                            e.target.style.color = selectedColor;
+                            e.target.style.transform = 'scale(1.05)';
+                        }}
+                        onMouseOut={(e) => {
+                            e.target.style.backgroundColor = selectedColor;
+                            e.target.style.color = 'white';
+                            e.target.style.transform = 'scale(1)';
                         }}
                     >
                         Prihlásiť sa
