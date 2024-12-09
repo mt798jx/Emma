@@ -1,53 +1,53 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { ref, push, onValue, remove } from 'firebase/database';
+import { database } from './firebase'; // Import Firebase konfigurácie
 import Header from './components/Header';
 import ImageSection from './components/ImageSection';
 import MessageForm from './components/MessageForm';
-import MessageList from './components/MessageList';
+import MessageList from './/components/MessageList';
 import LoginPage from './components/LoginPage';
 import image from './assets/image.jpg';
 
 function App() {
-    const [messages, setMessages] = useState(() => {
-        const savedMessages = localStorage.getItem('messages');
-        return savedMessages ? JSON.parse(savedMessages) : [];
-    });
+    const [messages, setMessages] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
 
+    // Načítanie správ z Firebase
+    useEffect(() => {
+        const messagesRef = ref(database, 'messages');
+        const unsubscribe = onValue(messagesRef, (snapshot) => {
+            const data = snapshot.val();
+            const loadedMessages = data ? Object.values(data) : [];
+            setMessages(loadedMessages);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    // Pridanie novej správy do Firebase
     function addMessage(newMessage) {
-        const updatedMessages = [
-            ...messages,
-            { text: newMessage, user: currentUser },
-        ];
-        setMessages(updatedMessages);
-        localStorage.setItem('messages', JSON.stringify(updatedMessages));
+        const messagesRef = ref(database, 'messages');
+        push(messagesRef, {
+            text: newMessage,
+            user: currentUser,
+        });
     }
 
+    // Prihlásenie používateľa
     function handleLogin(user) {
         setCurrentUser(user);
     }
 
+    // Odhlásenie používateľa
     function handleLogout() {
         setCurrentUser(null);
     }
 
+    // Vymazanie všetkých správ z Firebase (iba pre admina)
     function clearMessages() {
-        setMessages([]);
-        localStorage.removeItem('messages');
+        const messagesRef = ref(database, 'messages');
+        remove(messagesRef);
     }
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const savedMessages = localStorage.getItem('messages');
-            if (savedMessages) {
-                const parsedMessages = JSON.parse(savedMessages);
-                if (JSON.stringify(parsedMessages) !== JSON.stringify(messages)) {
-                    setMessages(parsedMessages);
-                }
-            }
-        }, 500);
-
-        return () => clearInterval(interval);
-    }, [messages]);
 
     if (!currentUser) {
         return <LoginPage onLogin={handleLogin} />;
