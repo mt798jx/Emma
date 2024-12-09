@@ -6,7 +6,7 @@ import { getDatabase } from "firebase/database";
 const firebaseConfig = {
     apiKey: "AIzaSyDmk2dYXB6G_d2neV0cCW3R6T-mh6teQ1E",
     authDomain: "emma-72441.firebaseapp.com",
-    databaseURL: "https://emma-72441-default-rtdb.firebaseio.com", // Pridaj tento riadok
+    databaseURL: "https://emma-72441-default-rtdb.europe-west1.firebasedatabase.app", // Opravené
     projectId: "emma-72441",
     storageBucket: "emma-72441.appspot.com", // Opravená hodnota
     messagingSenderId: "781917609790",
