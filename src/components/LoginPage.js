@@ -29,6 +29,12 @@ function LoginPage({ onLogin }) {
         }
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleLogin();
+        }
+    };
+
     const selectedColor = selectedUser ? users[selectedUser].color : '#121212';
 
     return (
@@ -144,6 +150,7 @@ function LoginPage({ onLogin }) {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Zadajte heslo"
+                        onKeyDown={handleKeyDown}
                         style={{
                             width: '100%',
                             padding: '12px',
