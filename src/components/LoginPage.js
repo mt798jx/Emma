@@ -10,6 +10,7 @@ function LoginPage({ onLogin }) {
     const users = {
         emma: { name: 'Emma', image: emmaImage, password: 'emma' },
         miro: { name: 'Miro', image: miroImage, password: 'miro' },
+        admin: { name: 'Admin', password: 'admin' },
     };
 
     const handleLogin = () => {
@@ -52,18 +53,39 @@ function LoginPage({ onLogin }) {
                             transform: selectedUser === userKey ? 'scale(1.1)' : 'scale(1)',
                         }}
                     >
-                        <img
-                            src={users[userKey].image}
-                            alt={users[userKey].name}
-                            style={{
-                                width: '150px',
-                                height: '150px',
-                                borderRadius: '50%',
-                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-                                objectFit: 'cover',
-                                border: selectedUser === userKey ? '4px solid #d6336c' : '4px solid transparent',
-                            }}
-                        />
+                        {userKey === 'admin' ? (
+                            <div
+                                style={{
+                                    width: '150px',
+                                    height: '150px',
+                                    borderRadius: '50%',
+                                    backgroundColor: '#555',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                    fontSize: '24px',
+                                    fontWeight: 'bold',
+                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+                                    border: selectedUser === 'admin' ? '4px solid #d6336c' : '4px solid transparent',
+                                }}
+                            >
+                                Admin
+                            </div>
+                        ) : (
+                            <img
+                                src={users[userKey].image}
+                                alt={users[userKey].name}
+                                style={{
+                                    width: '150px',
+                                    height: '150px',
+                                    borderRadius: '50%',
+                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+                                    objectFit: 'cover',
+                                    border: selectedUser === userKey ? '4px solid #d6336c' : '4px solid transparent',
+                                }}
+                            />
+                        )}
                         <p style={{ marginTop: '10px', fontSize: '18px', color: '#555' }}>{users[userKey].name}</p>
                     </div>
                 ))}
@@ -112,8 +134,6 @@ function LoginPage({ onLogin }) {
                             marginTop: '10px',
                             transition: 'background-color 0.2s',
                         }}
-                        onMouseOver={(e) => (e.target.style.backgroundColor = '#c31d5c')}
-                        onMouseOut={(e) => (e.target.style.backgroundColor = '#d6336c')}
                     >
                         Prihlásiť sa
                     </button>
