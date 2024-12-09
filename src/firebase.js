@@ -1,21 +1,21 @@
-// Import the functions you need from the SDKs you need
+// Import potrebných funkcií z Firebase SDK
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getDatabase } from "firebase/database";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Konfigurácia tvojej Firebase aplikácie
 const firebaseConfig = {
     apiKey: "AIzaSyDmk2dYXB6G_d2neV0cCW3R6T-mh6teQ1E",
     authDomain: "emma-72441.firebaseapp.com",
+    databaseURL: "https://emma-72441-default-rtdb.firebaseio.com", // Pridaj tento riadok
     projectId: "emma-72441",
-    storageBucket: "emma-72441.firebasestorage.app",
+    storageBucket: "emma-72441.appspot.com", // Opravená hodnota
     messagingSenderId: "781917609790",
     appId: "1:781917609790:web:7d70562a1dd17bd5ed566f",
     measurementId: "G-0Z6ND6D8VT"
 };
 
-// Initialize Firebase
+// Inicializácia Firebase aplikácie
 const app = initializeApp(firebaseConfig);
-export const database = getAnalytics(app);
+
+// Inicializácia Realtime Database
+export const database = getDatabase(app);
