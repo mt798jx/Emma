@@ -95,7 +95,6 @@ function App() {
 
     return (
         <div style={{ display: 'flex', height: '100vh', backgroundColor: '#f1f1f1', fontFamily: 'Arial, sans-serif' }}>
-            {/* Zoznam kontaktov alebo chat podľa režimu */}
             {(!isMobile || showChatList) && (
                 <div
                     style={{
@@ -192,20 +191,32 @@ function App() {
                     }}
                 >
                     {isMobile && (
-                        <button
-                            onClick={() => setShowChatList(true)}
+                        <div
                             style={{
-                                padding: '10px 20px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                padding: '10px 15px',
                                 backgroundColor: '#007bff',
                                 color: '#fff',
-                                border: 'none',
-                                cursor: 'pointer',
-                                borderRadius: '5px',
-                                margin: '10px',
+                                borderBottom: '1px solid #ddd',
                             }}
                         >
-                            Späť na kontakty
-                        </button>
+                            <button
+                                onClick={() => setShowChatList(true)}
+                                style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    color: '#fff',
+                                    fontSize: '20px',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                ←
+                            </button>
+                            <h3 style={{ margin: '0', fontSize: '18px' }}>{activeChat}</h3>
+                            <div />
+                        </div>
                     )}
                     <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
                         <MessageList
