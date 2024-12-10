@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import emmaImage from '../assets/emma.jpg';
 import miroImage from '../assets/miro.jpg';
 
@@ -6,6 +6,7 @@ function LoginPage({ onLogin }) {
     const [selectedUser, setSelectedUser] = useState(null);
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const passwordInputRef = useRef(null);
 
     const users = {
         emma: { name: 'Emma', image: emmaImage, password: 'emma', color: '#d6336c' }, // Ružová
@@ -29,6 +30,12 @@ function LoginPage({ onLogin }) {
         }
     };
 
+    const handleUserSelection = (userKey) => {
+        setSelectedUser(userKey);
+        setPassword('');
+        setError('');
+    };
+
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             handleLogin();
@@ -36,6 +43,13 @@ function LoginPage({ onLogin }) {
     };
 
     const selectedColor = selectedUser ? users[selectedUser].color : '#121212';
+
+    // Focus na input pri zmene `selectedUser`
+    useEffect(() => {
+        if (selectedUser && passwordInputRef.current) {
+            passwordInputRef.current.focus();
+        }
+    }, [selectedUser]);
 
     return (
         <div
@@ -67,7 +81,7 @@ function LoginPage({ onLogin }) {
                     <div
                         key={userKey}
                         className="user-avatar"
-                        onClick={() => setSelectedUser(userKey)}
+                        onClick={() => handleUserSelection(userKey)}
                         style={{
                             textAlign: 'center',
                             cursor: 'pointer',
@@ -147,6 +161,7 @@ function LoginPage({ onLogin }) {
                     <input
                         type="password"
                         value={password}
+                        ref={passwordInputRef}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Zadajte heslo"
                         onKeyDown={handleKeyDown}
