@@ -4,7 +4,8 @@ import { database } from './firebase'; // Import Firebase konfigurácie
 import Header from './components/Header';
 import MessageForm from './components/MessageForm';
 import MessageList from './components/MessageList';
-import LoginPage from "./components/LoginPage";
+import LoginPage from './components/LoginPage';
+import AdminDashboard from './components/AdminDashboard';
 
 function App() {
     const [messages, setMessages] = useState([]);
@@ -50,6 +51,31 @@ function App() {
 
     if (!currentUser) {
         return <LoginPage onLogin={handleLogin} />;
+    }
+
+    if (currentUser === 'Admin') {
+        return (
+            <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f1f1f1' }}>
+                <Header />
+                <button
+                    onClick={handleLogout}
+                    style={{
+                        margin: '20px auto',
+                        padding: '10px 20px',
+                        backgroundColor: '#555',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                    }}
+                >
+                    Odhlásiť sa
+                </button>
+                <div style={{ flex: 1, padding: '20px' }}>
+                    <AdminDashboard messages={messages} users={users} clearMessages={clearMessages} />
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -112,22 +138,20 @@ function App() {
                         ))}
                     </div>
                 </div>
-                {currentUser === 'Admin' && (
-                    <button
-                        onClick={clearMessages}
-                        style={{
-                            padding: '10px',
-                            margin: '20px',
-                            backgroundColor: '#d6336c',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        Vymazať všetky správy
-                    </button>
-                )}
+                <button
+                    onClick={handleLogout}
+                    style={{
+                        padding: '10px',
+                        margin: '20px',
+                        backgroundColor: '#555',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                    }}
+                >
+                    Odhlásiť sa
+                </button>
             </div>
 
             <div style={{ width: '75%', display: 'flex', flexDirection: 'column' }}>
@@ -136,7 +160,7 @@ function App() {
                         currentUser={currentUser}
                         messages={messages.filter((msg) =>
                             activeChat === 'Group Chat'
-                                ? msg.chatWith === 'Group Chat' // Len správy určené pre Group Chat
+                                ? msg.chatWith === 'Group Chat'
                                 : (msg.user === currentUser && msg.chatWith === activeChat) ||
                                 (msg.user === activeChat && msg.chatWith === currentUser)
                         )}
