@@ -15,10 +15,10 @@ function Header() {
             }}
         >
             <h1 style={{ fontSize: '36px', margin: '0', fontFamily: "'Pacifico', cursive" }}>
-                Pre moju ❤️
+                EMLMR
             </h1>
             <p style={{ fontSize: '18px', marginTop: '10px', fontStyle: 'italic' }}>
-                Nezabudni, že si pre mňa všetko!
+                Nezabudni, že si sledovaný/á!
             </p>
         </header>
     );
