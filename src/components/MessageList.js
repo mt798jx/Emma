@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MessageList({ messages, currentUser }) {
+function MessageList({ messages, currentUser, users }) {
     return (
         <div
             style={{
@@ -26,8 +26,31 @@ function MessageList({ messages, currentUser }) {
                                 display: 'flex',
                                 justifyContent: msg.user === currentUser ? 'flex-end' : 'flex-start',
                                 margin: '5px 0',
+                                alignItems: 'center', // Zarovnanie avatara a správy
                             }}
                         >
+                            {msg.user !== currentUser && (
+                                <div
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '50%',
+                                        overflow: 'hidden',
+                                        marginRight: msg.user === currentUser ? '0' : '10px',
+                                        marginLeft: msg.user === currentUser ? '10px' : '0',
+                                    }}
+                                >
+                                    <img
+                                        src={users[msg.user.toLowerCase()]?.image || ''}
+                                        alt={msg.user}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                        }}
+                                    />
+                                </div>
+                            )}
                             <div
                                 style={{
                                     maxWidth: '60%',
@@ -39,8 +62,29 @@ function MessageList({ messages, currentUser }) {
                                     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
                                 }}
                             >
-                                <b>{msg.user}:</b> {msg.text}
+                                {msg.text}
                             </div>
+                            {msg.user === currentUser && (
+                                <div
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '50%',
+                                        overflow: 'hidden',
+                                        marginLeft: '10px',
+                                    }}
+                                >
+                                    <img
+                                        src={users[msg.user.toLowerCase()]?.image || ''}
+                                        alt={msg.user}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                        }}
+                                    />
+                                </div>
+                            )}
                         </li>
                     ))}
                 </ul>

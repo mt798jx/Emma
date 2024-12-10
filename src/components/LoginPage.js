@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import emmaImage from '../assets/emma.jpg';
 import miroImage from '../assets/miro.jpg';
-import laraImage from '../assets/lara.jpg'; // Pridaj cestu k obrázku Lary
-import martinImage from '../assets/martin.jpg'; // Pridaj cestu k obrázku Martina
+import laraImage from '../assets/lara.jpg';
+import martinImage from '../assets/martin.jpg';
 
 function LoginPage({ onLogin }) {
     const [selectedUser, setSelectedUser] = useState(null);

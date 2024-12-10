@@ -6,6 +6,10 @@ import MessageForm from './components/MessageForm';
 import MessageList from './components/MessageList';
 import LoginPage from './components/LoginPage';
 import AdminDashboard from './components/AdminDashboard';
+import emmaImage from './assets/emma.jpg';
+import miroImage from './assets/miro.jpg';
+import laraImage from './assets/lara.jpg';
+import martinImage from './assets/martin.jpg';
 
 function App() {
     const [messages, setMessages] = useState([]);
@@ -14,6 +18,13 @@ function App() {
     const [users] = useState(['Emma', 'Miro', 'Lara', 'Martin', 'Group Chat']); // Zoznam používateľov
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 700);
     const [showChatList, setShowChatList] = useState(!isMobile);
+    const usersImages = {
+        emma: { name: 'Emma', image: emmaImage, password: 'emma', color: '#d6336c' }, // Ružová
+        miro: { name: 'Miro', image: miroImage, password: 'miro', color: '#007bff' }, // Modrá
+        lara: { name: 'Lara', image: laraImage, password: 'lara', color: '#ff8800' }, // Oranžová
+        martin: { name: 'Martin', image: martinImage, password: 'martin', color: '#32cd32' }, // Zelená
+        admin: { name: 'Admin', password: 'admin', color: '#333' }, // Šedá
+    };
 
     // Načítanie správ z Firebase
     useEffect(() => {
@@ -227,6 +238,7 @@ function App() {
                                     : (msg.user === currentUser && msg.chatWith === activeChat) ||
                                     (msg.user === activeChat && msg.chatWith === currentUser)
                             )}
+                            users={usersImages}
                         />
                     </div>
                     <MessageForm addMessage={addMessage} />
