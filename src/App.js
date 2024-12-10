@@ -9,7 +9,8 @@ import LoginPage from "./components/LoginPage";
 function App() {
     const [messages, setMessages] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
-    const [activeChat, setActiveChat] = useState('Miro');
+    const [activeChat, setActiveChat] = useState('Group Chat'); // Predvolene skupinový chat
+    const [users] = useState(['Emma', 'Miro', 'Lara', 'Martin', 'Group Chat']); // Zoznam používateľov
 
     // Načítanie správ z Firebase
     useEffect(() => {
@@ -63,88 +64,52 @@ function App() {
                 }}
             >
                 <Header />
-                <div style={{padding: '20px'}}>
-                    <h3 style={{color: '#555', marginBottom: '20px', textAlign: 'center', fontSize: '20px'}}>
+                <div style={{ padding: '20px' }}>
+                    <h3 style={{ color: '#555', marginBottom: '20px', textAlign: 'center', fontSize: '20px' }}>
                         Kontakty
                     </h3>
-                    <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
-                        <div
-                            onClick={() => setActiveChat('Miro')}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '15px',
-                                padding: '10px',
-                                borderRadius: '10px',
-                                cursor: 'pointer',
-                                backgroundColor: activeChat === 'Miro' ? '#007bff' : '#f9f9f9',
-                                color: activeChat === 'Miro' ? '#fff' : '#555',
-                                boxShadow: activeChat === 'Miro' ? '0px 4px 10px rgba(0, 123, 255, 0.3)' : '0px 2px 5px rgba(0, 0, 0, 0.1)',
-                                transition: 'all 0.3s ease',
-                            }}
-                        >
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                        {users.map((user) => (
                             <div
+                                key={user}
+                                onClick={() => setActiveChat(user)}
                                 style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    borderRadius: '50%',
-                                    backgroundColor: '#007bff',
                                     display: 'flex',
-                                    justifyContent: 'center',
                                     alignItems: 'center',
-                                    color: '#fff',
-                                    fontSize: '20px',
-                                    fontWeight: 'bold',
+                                    gap: '15px',
+                                    padding: '10px',
+                                    borderRadius: '10px',
+                                    cursor: 'pointer',
+                                    backgroundColor: activeChat === user ? '#007bff' : '#f9f9f9',
+                                    color: activeChat === user ? '#fff' : '#555',
+                                    boxShadow: activeChat === user ? '0px 4px 10px rgba(0, 123, 255, 0.3)' : '0px 2px 5px rgba(0, 0, 0, 0.1)',
+                                    transition: 'all 0.3s ease',
                                 }}
                             >
-                                M
+                                <div
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '50%',
+                                        backgroundColor: '#007bff',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        color: '#fff',
+                                        fontSize: '20px',
+                                        fontWeight: 'bold',
+                                    }}
+                                >
+                                    {user.charAt(0)}
+                                </div>
+                                <div style={{ flex: '1' }}>
+                                    <p style={{ margin: '0', fontWeight: 'bold' }}>{user}</p>
+                                    <p style={{ margin: '0', fontSize: '12px', color: '#aaa' }}>
+                                        {activeChat === user ? 'Aktívny' : 'Offline'}
+                                    </p>
+                                </div>
                             </div>
-                            <div style={{flex: '1'}}>
-                                <p style={{margin: '0', fontWeight: 'bold'}}>Miro</p>
-                                <p style={{margin: '0', fontSize: '12px', color: '#aaa'}}>
-                                    {activeChat === 'Miro' ? 'Aktívny' : 'Offline'}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div
-                            onClick={() => setActiveChat('Emma')}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '15px',
-                                padding: '10px',
-                                borderRadius: '10px',
-                                cursor: 'pointer',
-                                backgroundColor: activeChat === 'Emma' ? '#ff758c' : '#f9f9f9',
-                                color: activeChat === 'Emma' ? '#fff' : '#555',
-                                boxShadow: activeChat === 'Emma' ? '0px 4px 10px rgba(255, 117, 140, 0.3)' : '0px 2px 5px rgba(0, 0, 0, 0.1)',
-                                transition: 'all 0.3s ease',
-                            }}
-                        >
-                            <div
-                                style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    borderRadius: '50%',
-                                    backgroundColor: '#ff758c',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    color: '#fff',
-                                    fontSize: '20px',
-                                    fontWeight: 'bold',
-                                }}
-                            >
-                                E
-                            </div>
-                            <div style={{flex: '1'}}>
-                                <p style={{margin: '0', fontWeight: 'bold'}}>Emma</p>
-                                <p style={{margin: '0', fontSize: '12px', color: '#aaa'}}>
-                                    {activeChat === 'Emma' ? 'Aktívna' : 'Offline'}
-                                </p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
                 {currentUser === 'Admin' && (
@@ -165,18 +130,19 @@ function App() {
                 )}
             </div>
 
-            {/* Pravý panel */}
-            <div style={{width: '75%', display: 'flex', flexDirection: 'column'}}>
-                <div style={{flex: 1, overflowY: 'auto', padding: '20px'}}>
+            <div style={{ width: '75%', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
                     <MessageList
-                        messages={messages.filter(
-                            (msg) =>
-                                (msg.user === currentUser && msg.chatWith === activeChat) ||
+                        currentUser={currentUser}
+                        messages={messages.filter((msg) =>
+                            activeChat === 'Group Chat'
+                                ? msg.chatWith === 'Group Chat' // Len správy určené pre Group Chat
+                                : (msg.user === currentUser && msg.chatWith === activeChat) ||
                                 (msg.user === activeChat && msg.chatWith === currentUser)
                         )}
                     />
                 </div>
-                <MessageForm addMessage={addMessage}/>
+                <MessageForm addMessage={addMessage} />
             </div>
         </div>
     );

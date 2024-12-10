@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MessageList({ messages }) {
+function MessageList({ messages, currentUser }) {
     return (
         <div
             style={{
@@ -24,7 +24,7 @@ function MessageList({ messages }) {
                             key={index}
                             style={{
                                 display: 'flex',
-                                justifyContent: msg.user === 'Emma' ? 'flex-end' : 'flex-start',
+                                justifyContent: msg.user === currentUser ? 'flex-end' : 'flex-start',
                                 margin: '5px 0',
                             }}
                         >
@@ -33,7 +33,7 @@ function MessageList({ messages }) {
                                     maxWidth: '60%',
                                     padding: '10px 15px',
                                     borderRadius: '15px',
-                                    backgroundColor: msg.user === 'Emma' ? '#ff758c' : '#758cff',
+                                    backgroundColor: msg.user === currentUser ? '#4CAF50' : '#2196F3',
                                     color: '#ffffff',
                                     textAlign: 'left',
                                     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',

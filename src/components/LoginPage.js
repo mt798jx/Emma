@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import emmaImage from '../assets/emma.jpg';
 import miroImage from '../assets/miro.jpg';
+import laraImage from '../assets/lara.jpg'; // Pridaj cestu k obrázku Lary
+import martinImage from '../assets/martin.jpg'; // Pridaj cestu k obrázku Martina
 
 function LoginPage({ onLogin }) {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -11,6 +13,8 @@ function LoginPage({ onLogin }) {
     const users = {
         emma: { name: 'Emma', image: emmaImage, password: 'emma', color: '#d6336c' }, // Ružová
         miro: { name: 'Miro', image: miroImage, password: 'miro', color: '#007bff' }, // Modrá
+        lara: { name: 'Lara', image: laraImage, password: 'lara', color: '#ff8800' }, // Oranžová
+        martin: { name: 'Martin', image: martinImage, password: 'martin', color: '#32cd32' }, // Zelená
         admin: { name: 'Admin', password: 'admin', color: '#333' }, // Šedá
     };
 
@@ -44,7 +48,6 @@ function LoginPage({ onLogin }) {
 
     const selectedColor = selectedUser ? users[selectedUser].color : '#121212';
 
-    // Focus na input pri zmene `selectedUser`
     useEffect(() => {
         if (selectedUser && passwordInputRef.current) {
             passwordInputRef.current.focus();
